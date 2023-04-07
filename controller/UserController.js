@@ -19,4 +19,17 @@ async function insert(username, password, score, positionX, positionY, positionZ
     }
 }
 
-module.exports = { getAll, insert }
+async function updateUser(username, score) {
+    try {
+        const updatedUser = await user.findOneAndUpdate(
+            { username: username }, // tìm kiếm bản ghi với username tương ứng
+            { $set: { score: score } }, // cập nhật trường score cho bản ghi đó
+            { new: true } // trả về bản ghi đã được cập nhật
+        );
+        return updatedUser;
+    } catch (error) {
+        console.error("error updating score: " + error);
+    }
+}
+
+module.exports = { getAll, insert, updateUser }

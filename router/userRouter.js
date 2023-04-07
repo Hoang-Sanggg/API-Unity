@@ -16,7 +16,7 @@ router.post('/login', async function (req, res) {
 
     if (!Users) {
         res.send({
-            status: 1,
+            status: 0,
             notification: "Sai tài khoản hoặc mật khẩu"
         });
     } else {
@@ -75,6 +75,26 @@ router.post('/register', async (req, res) => {
         res.send({
             status: 0,
             notification: "Tên tài khoản đã tồn tại"
+        });
+    }
+});
+
+router.post('/savescore', async (req, res) => {
+    let username = req.body.username;
+    let score = req.body.score;
+
+
+    try {
+        await UserController.updateUser(username, score);
+        res.send({
+            status: 1,
+            notification: "Lưu thành công"
+        });
+    } catch (err) {
+        console.log(err);
+        res.send({
+            status: 0,
+            notification: "Lưu thất bại"
         });
     }
 });
